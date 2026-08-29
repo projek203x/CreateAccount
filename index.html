@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>203'X - Create Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0A0B0E;
+            --bg-card: rgba(16, 18, 22, 0.85);
+            --bg-input: rgba(0, 0, 0, 0.5);
+            --accent-orange: #FF6E00;
+            --accent-orange-glow: rgba(255, 110, 0, 0.4);
+            --text-main: #FFFFFF;
+            --text-sub: #9AA0A6;
+            --text-muted: #54585E;
+            --glass-border: rgba(255, 110, 0, 0.1);
+            --shadow-glow: 0 0 30px rgba(255, 110, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 110, 0, 0.03) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            border-radius: 24px;
+            padding: 32px 28px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 20%;
+            width: 60%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+            opacity: 0.6;
+            filter: blur(2px);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 2px solid rgba(255, 110, 0, 0.1);
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 10%;
+            width: 80%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+            filter: blur(4px);
+        }
+        .header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 10px;
+            font-size: 3.2rem;
+            background: linear-gradient(to bottom, #FFFFFF, #DBAEB2, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 80px rgba(255, 110, 0, 0.3);
+        }
+        .header p {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-top: 4px;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 16px 18px;
+            background: var(--bg-input);
+            border: 2px solid rgba(255, 110, 0, 0.15);
+            border-radius: 16px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .form-group input:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 40px var(--accent-orange-glow), inset 0 0 20px rgba(255, 110, 0, 0.05);
+        }
+        .form-group input::placeholder {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .btn-create {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #1A1C22, #2F3138);
+            color: #FFFFFF;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 110, 0, 0.1);
+            margin-top: 8px;
+        }
+        .btn-create:hover {
+            background: linear-gradient(135deg, #2A2D36, #1A1C22);
+            border-color: rgba(255, 110, 0, 0.3);
+            box-shadow: 0 0 60px rgba(255, 110, 0, 0.1);
+        }
+        .btn-create:active { transform: scale(0.97); }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .login-link a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .login-link a:hover {
+            text-shadow: 0 0 20px var(--accent-orange-glow);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer strong {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-sub);
+            letter-spacing: 3px;
+        }
+
+        #toastContainer {
+            position: fixed; top: 30px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999; width: 90%; max-width: 440px;
+            pointer-events: none;
+        }
+        .toast {
+            background: rgba(10, 11, 14, 0.95);
+            backdrop-filter: blur(16px);
+            padding: 16px 22px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 110, 0, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border-left: 5px solid var(--accent-orange);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            pointer-events: auto;
+            letter-spacing: 1px;
+        }
+        .toast.error { border-left-color: #CC4400; border-color: rgba(204, 68, 0, 0.2); }
+        .toast .toast-icon {
+            width: 24px; height: 24px; flex-shrink: 0;
+            stroke: var(--accent-orange); fill: none; stroke-width: 2.5;
+        }
+        .toast.error .toast-icon { stroke: #CC4400; }
+
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h2>203'X</h2>
+                <p>CREATE ACCOUNT</p>
+            </div>
+
+            <form id="createForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label>USERNAME</label>
+                    <input type="text" id="regUsername" placeholder="Buat username" required>
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="regPassword" placeholder="Buat password" required>
+                </div>
+                <div class="form-group">
+                    <label>KONFIRMASI PASSWORD</label>
+                    <input type="password" id="regConfirmPassword" placeholder="Konfirmasi password" required>
+                </div>
+                <button type="button" class="btn-create" onclick="handleRegister()">BUAT AKUN</button>
+            </form>
+
+            <div class="login-link">
+                Sudah punya akun? <a href="login.html">Login</a>
+            </div>
+
+            <div class="footer">
+                <strong>203'X TEAM</strong> — © 2026
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+
+    <script>
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${isError ? 'error' : ''}`;
+            
+            const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.classList.add('toast-icon');
+            if(isError) {
+                icon.innerHTML = `<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>`;
+            } else {
+                icon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>`;
+            }
+            toast.appendChild(icon);
+            
+            const text = document.createElement('span');
+            text.innerText = message;
+            toast.appendChild(text);
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                if(toast.parentNode) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-20px)';
+                    toast.style.transition = '0.3s';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 4000);
+        }
+
+        function handleRegister() {
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const confirm = document.getElementById('regConfirmPassword').value.trim();
+
+            if (!username || !password || !confirm) {
+                showToast('Semua field harus diisi!', true);
+                return;
+            }
+
+            if (username.length < 3) {
+                showToast('Username minimal 3 karakter!', true);
+                return;
+            }
+
+            if (password.length < 4) {
+                showToast('Password minimal 4 karakter!', true);
+                return;
+            }
+
+            if (password !== confirm) {
+                showToast('Password dan konfirmasi tidak sama!', true);
+                return;
+            }
+
+            // Cek apakah username sudah ada
+            const users = JSON.parse(localStorage.getItem('203x_users') || '[]');
+            if (users.find(u => u.username === username)) {
+                showToast('Username sudah digunakan!', true);
+                return;
+            }
+
+            // Simpan user
+            users.push({ username: username, password: password });
+            localStorage.setItem('203x_users', JSON.stringify(users));
+
+            showToast('✅ Akun berhasil dibuat!', false);
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 800);
+        }
+
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                handleRegister();
+            }
+        });
+    </script>
+</body>
+  </html>
