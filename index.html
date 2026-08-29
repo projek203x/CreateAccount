@@ -37,10 +37,7 @@
             padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-        }
+        .container { width: 100%; max-width: 420px; }
 
         .card {
             background: var(--bg-card);
@@ -64,9 +61,9 @@
 
         .header {
             text-align: center;
-            padding-bottom: 25px;
+            padding-bottom: 20px;
             border-bottom: 2px solid rgba(255, 110, 0, 0.1);
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             position: relative;
         }
         .header::after {
@@ -81,7 +78,7 @@
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
             letter-spacing: 10px;
-            font-size: 3.2rem;
+            font-size: 3rem;
             background: linear-gradient(to bottom, #FFFFFF, #DBAEB2, #FF8C00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -94,20 +91,18 @@
             letter-spacing: 2px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 18px; }
         .form-group label {
             display: block;
             font-weight: 600;
             font-size: 0.85rem;
             letter-spacing: 2px;
             color: var(--text-sub);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 16px 18px;
+            padding: 14px 18px;
             background: var(--bg-input);
             border: 2px solid rgba(255, 110, 0, 0.15);
             border-radius: 16px;
@@ -116,32 +111,31 @@
             font-size: 1.1rem;
             outline: none;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
         }
-        .form-group input:focus {
+        .form-group select option { background: #1a1a2e; color: #fff; }
+        .form-group input:focus, .form-group select:focus {
             border-color: var(--accent-orange);
             box-shadow: 0 0 40px var(--accent-orange-glow), inset 0 0 20px rgba(255, 110, 0, 0.05);
         }
-        .form-group input::placeholder {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .form-group input::placeholder { color: var(--text-muted); font-size: 0.9rem; }
 
         .btn-create {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             border: none;
             border-radius: 20px;
             background: linear-gradient(135deg, #1A1C22, #2F3138);
             color: #FFFFFF;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 900;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             letter-spacing: 4px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 110, 0, 0.1);
-            margin-top: 8px;
+            margin-top: 4px;
         }
         .btn-create:hover {
             background: linear-gradient(135deg, #2A2D36, #1A1C22);
@@ -152,9 +146,9 @@
 
         .login-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 16px;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .login-link a {
             color: var(--accent-orange);
@@ -168,7 +162,7 @@
 
         .footer {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 22px;
             color: var(--text-muted);
             font-size: 0.85rem;
         }
@@ -176,6 +170,14 @@
             font-family: 'Orbitron', sans-serif;
             color: var(--text-sub);
             letter-spacing: 3px;
+        }
+        .footer-credit {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
         }
 
         #toastContainer {
@@ -193,26 +195,30 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             border-left: 5px solid var(--accent-orange);
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-weight: 600;
-            color: #fff;
+            display: flex; align-items: center; gap: 14px;
+            font-weight: 600; font-size: 0.95rem; color: #fff;
             font-family: 'Rajdhani', sans-serif;
             animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             pointer-events: auto;
             letter-spacing: 1px;
         }
         .toast.error { border-left-color: #CC4400; border-color: rgba(204, 68, 0, 0.2); }
-        .toast .toast-icon {
-            width: 24px; height: 24px; flex-shrink: 0;
-            stroke: var(--accent-orange); fill: none; stroke-width: 2.5;
-        }
+        .toast .toast-icon { width: 24px; height: 24px; flex-shrink: 0; stroke: var(--accent-orange); fill: none; stroke-width: 2.5; }
         .toast.error .toast-icon { stroke: #CC4400; }
 
         @keyframes slideDown {
             0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (max-width: 480px) {
+            .header h2 { font-size: 2.2rem; letter-spacing: 6px; }
+            .card { padding: 24px 18px; }
+        }
+        @media (max-width: 380px) {
+            .header h2 { font-size: 1.8rem; letter-spacing: 4px; }
+            .form-group input { padding: 12px 14px; font-size: 0.95rem; }
+            .btn-create { font-size: 1rem; padding: 14px; }
         }
     </style>
 </head>
@@ -236,17 +242,25 @@
                 </div>
                 <div class="form-group">
                     <label>KONFIRMASI PASSWORD</label>
-                    <input type="password" id="regConfirmPassword" placeholder="Konfirmasi password" required>
+                    <input type="password" id="regConfirm" placeholder="Konfirmasi password" required>
                 </div>
-                <button type="button" class="btn-create" onclick="handleRegister()">BUAT AKUN</button>
+                <div class="form-group">
+                    <label>ROLE</label>
+                    <select id="regRole">
+                        <option value="Reseller">Reseller</option>
+                        <option value="Full Up">Full Up</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-create" onclick="handleCreate()">BUAT AKUN</button>
             </form>
 
             <div class="login-link">
-                Sudah punya akun? <a href="login.html">Login</a>
+                Sudah punya akun? <a href="index.html">Login</a>
             </div>
 
             <div class="footer">
                 <strong>203'X TEAM</strong> — © 2026
+                <div class="footer-credit">@create apk by samil</div>
             </div>
         </div>
     </div>
@@ -263,16 +277,15 @@
             icon.setAttribute('viewBox', '0 0 24 24');
             icon.classList.add('toast-icon');
             if(isError) {
-                icon.innerHTML = `<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>`;
+                icon.innerHTML = `<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>`;
             } else {
-                icon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>`;
+                icon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`;
             }
             toast.appendChild(icon);
             
             const text = document.createElement('span');
             text.innerText = message;
             toast.appendChild(text);
-            
             container.appendChild(toast);
             setTimeout(() => {
                 if(toast.parentNode) {
@@ -284,54 +297,52 @@
             }, 4000);
         }
 
-        function handleRegister() {
+        function handleCreate() {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value.trim();
-            const confirm = document.getElementById('regConfirmPassword').value.trim();
+            const confirm = document.getElementById('regConfirm').value.trim();
+            const role = document.getElementById('regRole').value;
 
             if (!username || !password || !confirm) {
                 showToast('Semua field harus diisi!', true);
                 return;
             }
-
             if (username.length < 3) {
                 showToast('Username minimal 3 karakter!', true);
                 return;
             }
-
             if (password.length < 4) {
                 showToast('Password minimal 4 karakter!', true);
                 return;
             }
-
             if (password !== confirm) {
-                showToast('Password dan konfirmasi tidak sama!', true);
+                showToast('Password tidak sama!', true);
                 return;
             }
 
-            // Cek apakah username sudah ada
             const users = JSON.parse(localStorage.getItem('203x_users') || '[]');
             if (users.find(u => u.username === username)) {
                 showToast('Username sudah digunakan!', true);
                 return;
             }
 
-            // Simpan user
-            users.push({ username: username, password: password });
+            users.push({ username, password, role });
             localStorage.setItem('203x_users', JSON.stringify(users));
 
             showToast('✅ Akun berhasil dibuat!', false);
             setTimeout(() => {
-                window.location.href = 'login.html';
+                document.getElementById('regUsername').value = '';
+                document.getElementById('regPassword').value = '';
+                document.getElementById('regConfirm').value = '';
+                window.location.href = 'index.html';
             }, 800);
         }
 
-        // Enter key support
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
-                handleRegister();
+                handleCreate();
             }
         });
     </script>
 </body>
-  </html>
+                        </html>
