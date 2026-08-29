@@ -2,19 +2,19 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>203'X - Create Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>203X - Create Account</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #12121E;
-            --bg-card: rgba(26, 26, 42, 0.85);
-            --bg-input: rgba(10, 10, 20, 0.6);
+            --bg-primary: #0A0B0E;
+            --bg-card: rgba(16, 18, 22, 0.85);
+            --bg-input: rgba(0, 0, 0, 0.5);
             --accent-orange: #FF6E00;
             --accent-orange-glow: rgba(255, 110, 0, 0.4);
             --text-main: #FFFFFF;
-            --text-sub: #B0B0C8;
-            --text-muted: #6A6A8A;
+            --text-sub: #9AA0A6;
+            --text-muted: #54585E;
             --glass-border: rgba(255, 110, 0, 0.1);
             --shadow-glow: 0 0 30px rgba(255, 110, 0, 0.05);
         }
@@ -113,12 +113,13 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             appearance: none;
         }
-        .form-group select option { background: #1a1a2e; color: #fff; }
+        .form-group select option { background: #0A0B0E; color: #fff; }
         .form-group input:focus, .form-group select:focus {
             border-color: var(--accent-orange);
             box-shadow: 0 0 40px var(--accent-orange-glow), inset 0 0 20px rgba(255, 110, 0, 0.05);
         }
         .form-group input::placeholder { color: var(--text-muted); font-size: 0.9rem; }
+        .form-group select { cursor: pointer; }
 
         .btn-create {
             width: 100%;
@@ -143,6 +144,23 @@
             box-shadow: 0 0 60px rgba(255, 110, 0, 0.1);
         }
         .btn-create:active { transform: scale(0.97); }
+
+        .btn-back {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 60px;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 12px;
+        }
+        .btn-back:hover { border-color: rgba(255, 110, 0, 0.3); color: var(--accent-orange); }
 
         .footer {
             text-align: center;
@@ -211,7 +229,7 @@
     <div class="container">
         <div class="card">
             <div class="header">
-                <h2>203'X</h2>
+                <h2>203X</h2>
                 <p>CREATE ACCOUNT</p>
             </div>
 
@@ -233,13 +251,25 @@
                     <select id="regRole">
                         <option value="Reseller">Reseller</option>
                         <option value="Full Up">Full Up</option>
+                        <option value="VIP">VIP</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>MASA BERLAKU</label>
+                    <select id="regExpired">
+                        <option value="1day">1 Hari</option>
+                        <option value="1week">1 Minggu</option>
+                        <option value="1month">1 Bulan</option>
+                        <option value="permanent">No Expired (Permanent)</option>
                     </select>
                 </div>
                 <button type="button" class="btn-create" onclick="handleCreate()">BUAT AKUN</button>
             </form>
 
+            <button class="btn-back" onclick="window.location.href='index.html'">← KEMBALI KE LOGIN</button>
+
             <div class="footer">
-                <strong>203'X TEAM</strong> — © 2026
+                <strong>203X TEAM</strong> — © 2026
                 <div class="footer-credit">@create apk by samil</div>
             </div>
         </div>
@@ -248,6 +278,10 @@
     <div id="toastContainer"></div>
 
     <script>
+        // ============================================================
+        // 203X CREATE ACCOUNT
+        // ============================================================
+
         function showToast(message, isError = false) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -277,11 +311,31 @@
             }, 4000);
         }
 
+        function getExpiredDate(expiredType) {
+            const now = new Date();
+            switch(expiredType) {
+                case '1day':
+                    now.setDate(now.getDate() + 1);
+                    break;
+                case '1week':
+                    now.setDate(now.getDate() + 7);
+                    break;
+                case '1month':
+                    now.setMonth(now.getMonth() + 1);
+                    break;
+                case 'permanent':
+                default:
+                    return null; // Tidak pernah expired
+            }
+            return now.toISOString();
+        }
+
         function handleCreate() {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value.trim();
             const confirm = document.getElementById('regConfirm').value.trim();
             const role = document.getElementById('regRole').value;
+            const expired = document.getElementById('regExpired').value;
 
             if (!username || !password || !confirm) {
                 showToast('Semua field harus diisi!', true);
@@ -306,16 +360,27 @@
                 return;
             }
 
-            users.push({ username, password, role });
+            const expiredDate = getExpiredDate(expired);
+            const expiredLabel = document.getElementById('regExpired').selectedOptions[0].text;
+
+            users.push({
+                username,
+                password,
+                role,
+                expired: expiredDate,
+                expiredLabel: expiredLabel,
+                createdAt: new Date().toISOString()
+            });
+
             localStorage.setItem('203x_users', JSON.stringify(users));
 
-            showToast('✅ Akun berhasil dibuat!', false);
+            showToast(`✅ Akun berhasil dibuat! (${role} - ${expiredLabel})`, false);
             setTimeout(() => {
                 document.getElementById('regUsername').value = '';
                 document.getElementById('regPassword').value = '';
                 document.getElementById('regConfirm').value = '';
                 window.location.href = 'index.html';
-            }, 800);
+            }, 1000);
         }
 
         document.addEventListener('keydown', function(e) {
@@ -325,4 +390,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
