@@ -18,15 +18,10 @@
             --glass-border: rgba(255, 110, 0, 0.1);
             --shadow-glow: 0 0 30px rgba(255, 110, 0, 0.05);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background-color: var(--bg-primary);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 110, 0, 0.03) 0%, transparent 60%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 110, 0, 0.03) 0%, transparent 60%), linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 30px 30px, 30px 30px;
             color: var(--text-main);
             font-family: 'Rajdhani', sans-serif;
@@ -36,9 +31,7 @@
             justify-content: center;
             padding: 20px;
         }
-
         .container { width: 100%; max-width: 420px; }
-
         .card {
             background: var(--bg-card);
             backdrop-filter: blur(14px);
@@ -58,7 +51,6 @@
             opacity: 0.6;
             filter: blur(2px);
         }
-
         .header {
             text-align: center;
             padding-bottom: 20px;
@@ -90,7 +82,6 @@
             margin-top: 4px;
             letter-spacing: 2px;
         }
-
         .form-group { margin-bottom: 18px; }
         .form-group label {
             display: block;
@@ -120,7 +111,6 @@
         }
         .form-group input::placeholder { color: var(--text-muted); font-size: 0.9rem; }
         .form-group select { cursor: pointer; }
-
         .btn-create {
             width: 100%;
             padding: 16px;
@@ -144,7 +134,6 @@
             box-shadow: 0 0 60px rgba(255, 110, 0, 0.1);
         }
         .btn-create:active { transform: scale(0.97); }
-
         .btn-back {
             width: 100%;
             padding: 12px;
@@ -161,7 +150,6 @@
             margin-top: 12px;
         }
         .btn-back:hover { border-color: rgba(255, 110, 0, 0.3); color: var(--accent-orange); }
-
         .footer {
             text-align: center;
             margin-top: 22px;
@@ -181,7 +169,6 @@
             color: var(--text-muted);
             letter-spacing: 1px;
         }
-
         #toastContainer {
             position: fixed; top: 30px; left: 50%;
             transform: translateX(-50%);
@@ -207,12 +194,10 @@
         .toast.error { border-left-color: #CC4400; border-color: rgba(204, 68, 0, 0.2); }
         .toast .toast-icon { width: 24px; height: 24px; flex-shrink: 0; stroke: var(--accent-orange); fill: none; stroke-width: 2.5; }
         .toast.error .toast-icon { stroke: #CC4400; }
-
         @keyframes slideDown {
             0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-
         @media (max-width: 480px) {
             .header h2 { font-size: 2.2rem; letter-spacing: 6px; }
             .card { padding: 24px 18px; }
@@ -279,9 +264,49 @@
 
     <script>
         // ============================================================
-        // 203X CREATE ACCOUNT
+        // 203X CREATE ACCOUNT - DENGAN JSONBIN.IO
         // ============================================================
 
+        // ===== KONFIGURASI JSONBIN =====
+        const JSONBIN_BIN_ID = '6a9385c4da38895dfe21ae48';
+        const JSONBIN_API_KEY = '$2a$10$F/3SbU6DY2BZQbdCqotFsubB.FIXhOSII/E0u98H7gHKWWWAnwO4u';
+
+        // ============================================================
+        // FUNGSI JSONBIN
+        // ============================================================
+        async function getUsersFromJSONBin() {
+            try {
+                const resp = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                });
+                const data = await resp.json();
+                return data.record.users || [];
+            } catch (err) {
+                console.log('Error get users:', err);
+                return [];
+            }
+        }
+
+        async function saveUsersToJSONBin(users) {
+            try {
+                const resp = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ users: users })
+                });
+                return resp.ok;
+            } catch (err) {
+                console.log('Error save users:', err);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
         function showToast(message, isError = false) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -311,27 +336,25 @@
             }, 4000);
         }
 
+        // ============================================================
+        // GET EXPIRED DATE
+        // ============================================================
         function getExpiredDate(expiredType) {
             const now = new Date();
             switch(expiredType) {
-                case '1day':
-                    now.setDate(now.getDate() + 1);
-                    break;
-                case '1week':
-                    now.setDate(now.getDate() + 7);
-                    break;
-                case '1month':
-                    now.setMonth(now.getMonth() + 1);
-                    break;
-                case 'permanent':
-                default:
-                    return null; // Tidak pernah expired
+                case '1day': now.setDate(now.getDate() + 1); break;
+                case '1week': now.setDate(now.getDate() + 7); break;
+                case '1month': now.setMonth(now.getMonth() + 1); break;
+                case 'permanent': default: return null;
             }
             return now.toISOString();
         }
 
-        function handleCreate() {
-            const username = document.getElementById('regUsername').value.trim();
+        // ============================================================
+        // HANDLE CREATE
+        // ============================================================
+        async function handleCreate() {
+            let username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value.trim();
             const confirm = document.getElementById('regConfirm').value.trim();
             const role = document.getElementById('regRole').value;
@@ -354,17 +377,28 @@
                 return;
             }
 
-            const users = JSON.parse(localStorage.getItem('203x_users') || '[]');
-            if (users.find(u => u.username === username)) {
-                showToast('Username sudah digunakan!', true);
-                return;
+            showToast('Menyimpan akun...', false);
+
+            let users = await getUsersFromJSONBin();
+
+            let finalUsername = username;
+            let usernameChanged = false;
+            let counter = 1;
+
+            while (users.find(u => u.username === finalUsername)) {
+                finalUsername = username + counter;
+                counter++;
+            }
+
+            if (finalUsername !== username) {
+                usernameChanged = true;
             }
 
             const expiredDate = getExpiredDate(expired);
             const expiredLabel = document.getElementById('regExpired').selectedOptions[0].text;
 
             users.push({
-                username,
+                username: finalUsername,
                 password,
                 role,
                 expired: expiredDate,
@@ -372,15 +406,20 @@
                 createdAt: new Date().toISOString()
             });
 
-            localStorage.setItem('203x_users', JSON.stringify(users));
+            const saved = await saveUsersToJSONBin(users);
 
-            showToast(`✅ Akun berhasil dibuat! (${role} - ${expiredLabel})`, false);
-            setTimeout(() => {
-                document.getElementById('regUsername').value = '';
-                document.getElementById('regPassword').value = '';
-                document.getElementById('regConfirm').value = '';
-                window.location.href = 'index.html';
-            }, 1000);
+            if (saved) {
+                let message = `✅ Akun berhasil dibuat! (${role} - ${expiredLabel})`;
+                if (usernameChanged) {
+                    message += `\nUsername: ${finalUsername} (${username} sudah dipakai)`;
+                }
+                showToast(message, false);
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } else {
+                showToast('Gagal menyimpan akun! Coba lagi.', true);
+            }
         }
 
         document.addEventListener('keydown', function(e) {
